@@ -8,15 +8,12 @@ pub mod solana_nft_project {
     use super::*;
     pub use instructions::*;
 
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        msg!("Greetings from: {:?}", ctx.program_id);
-        Ok(())
-    }
-
     pub fn init_nft(ctx: Context<InitNFT>, name: String, symbol: String, uri: String) -> Result<()> {
         instructions::init_nft(ctx, name, symbol, uri)
     }
+
+    pub fn mint_cnft(ctx: Context<CreateCollectionNft>, uri: String, name: String, symbol: String) -> Result<()> {
+        instructions::create_collection_nft(ctx, uri, name, symbol)
+    }
 }
 
-#[derive(Accounts)]
-pub struct Initialize {}
