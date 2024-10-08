@@ -3,6 +3,7 @@ use anchor_lang::prelude::*;
 declare_id!("6HHRqdp2BNWoswpdt3WLmMsBtLBuVdJ2GUjG9PMmDTuP");
 
 mod instructions;
+mod state;
 #[program]
 pub mod solana_nft_project {
     use super::*;
