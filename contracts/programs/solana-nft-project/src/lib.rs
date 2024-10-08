@@ -12,7 +12,7 @@ pub mod solana_nft_project {
         instructions::init_nft(ctx, name, symbol, uri)
     }
 
-    pub fn mint_cnft(ctx: Context<CreateCollectionNft>, uri: String, name: String, symbol: String) -> Result<()> {
+    pub fn create_collection_nft(ctx: Context<CreateCollectionNft>, uri: String, name: String, symbol: String) -> Result<()> {
         instructions::create_collection_nft(ctx, uri, name, symbol)
     }
 }
