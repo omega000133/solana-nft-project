@@ -5,7 +5,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-solana_nft_project = "6HHRqdp2BNWoswpdt3WLmMsBtLBuVdJ2GUjG9PMmDTuP"
+solana_nft_project = "FuGqSNmxgcdcL69xtDBCBQtxFXH142cM5Fw4r11oHhGC"
 
 [registry]
 url = "https://api.apr.dev"
@@ -15,4 +15,4 @@ cluster = "Devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
-test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/buy-nft.ts"

@@ -1,8 +1,9 @@
 use anchor_lang::prelude::*;
 
-declare_id!("6HHRqdp2BNWoswpdt3WLmMsBtLBuVdJ2GUjG9PMmDTuP");
+declare_id!("FuGqSNmxgcdcL69xtDBCBQtxFXH142cM5Fw4r11oHhGC");
 
 mod instructions;
+mod state;
 #[program]
 pub mod solana_nft_project {
     use super::*;
@@ -14,6 +15,13 @@ pub mod solana_nft_project {
 
     pub fn create_collection_nft(ctx: Context<CreateCollectionNft>, uri: String, name: String, symbol: String) -> Result<()> {
         instructions::create_collection_nft(ctx, uri, name, symbol)
+    }
+
+    pub fn init_treasury(ctx: Context<InitializeTreasury>) -> Result<()> {
+        instructions::initialize_treasury(ctx)
+    }
+    pub fn buy_nft<'a, 'b, 'c, 'info>(ctx: Context<'a, 'b, 'c, 'info, CreateNftInCollection<'info>>) -> Result<()> {
+        instructions::buy_collection_nft(ctx)
     }
 }
 

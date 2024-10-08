@@ -16,7 +16,7 @@ pub fn create_collection_nft(
     symbol: String
 ) -> Result<()> {
     let signer_seeds: &[&[&[u8]]] = &[&[
-        "gululu_collection".as_bytes(),
+        "platinum_collection".as_bytes(),
         &[ctx.bumps.collection_mint],
     ]];
     msg!("SIGNER SEEDS GENERATED");
@@ -131,8 +131,8 @@ pub struct CreateCollectionNft<'info> {
     #[account(mut)]
     pub authority: Signer<'info>,
     #[account(
-        init,
-        seeds = [b"gululu_collection"],
+        init_if_needed,
+        seeds = [b"platinum_collection"],
         bump,
         payer = authority,
         mint::decimals = 0,
