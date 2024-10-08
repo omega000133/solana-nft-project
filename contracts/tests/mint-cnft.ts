@@ -32,9 +32,9 @@ describe("create collection nft", async () => {
     };
 
     const testCollectionMetadata = {
-        uri: "https://arweave.net/h19GMcMz7RLDY7kAHGWeWolHTmO83mLLMNPzEkF32BQ",
-        name: "Gul",
-        symbol: "SYMBOL"
+        uri: "https://black-cheap-koala-709.mypinata.cloud/ipfs/QmVzf4KKB6ztH82pczKDMyVegogfVGjVmyTb3ojz9zR7S2/collection.json",
+        name: "Platinum Node",
+        symbol: "PNODE"
     };
 
     const [collectionPDA] = anchor.web3.PublicKey.findProgramAddressSync(
