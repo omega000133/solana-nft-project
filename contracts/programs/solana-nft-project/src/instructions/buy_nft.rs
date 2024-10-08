@@ -71,7 +71,7 @@ pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
     )?;
 
     if treasury.count == 0 {
-        return Err(ErrorCode::BarkBallerBundleMintEnded.into());
+        return Err(ErrorCode::MintEnded.into());
     } else {
         treasury.count -= 1;
         count = 99 - treasury.count;
@@ -263,18 +263,10 @@ pub enum ErrorCode {
     PriceFeedIsDown,
     #[msg("Invalid Price Feed Address")]
     InvalidPriceFeed,
-    #[msg("BarkBallerBundle Category Mint Limit Exceeded")]
-    BarkBallerBundleLimitExceeded,
-    #[msg("FurRealDeal Category Mint Limit Exceeded")]
-    FurRealDealLimitExceeded,
-    #[msg("PurrmiumPack Category Mint Limit Exceeded")]
-    PurrmiumPackLimitExceeded,
-    #[msg("BarkBallerBundle collection has ended. No more NFTs are available to mint in this category. Check other categories")]
-    BarkBallerBundleMintEnded,
-    #[msg("FurRealDeal collection has ended. No more NFTs are available to mint in this category. Check other categories")]
-    FurRealDealMintEnded,
-    #[msg("PurrmiumPack collection has ended. No more NFTs are available to mint in this category. Check other categories")]
-    PurrmiumPackMintEnded,
+    #[msg("Platinum Node Category Mint Limit Exceeded")]
+    LimitExceeded,
+    #[msg("Plantinum Node collection has ended. No more NFTs are available to mint in this category. Check other categories")]
+    MintEnded,
     #[msg("Warning: Invalid Whitelist token, Only whitelisted tokens are allowed")]
     InvalidMint,
 }
