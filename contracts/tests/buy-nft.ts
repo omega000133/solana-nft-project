@@ -148,9 +148,8 @@ describe("mint nft in collection", async () => {
                 }
             );
 
-            // const x = await provider.sendAndConfirm(transferTransaction);
-
             console.log("confrim tx:", `https://explorer.solana.com/tx/${txid}?cluster=devnet`);
+            console.log("Minted nft in collection:", `https://explorer.solana.com/address/${mint.publicKey}?cluster=devnet`);
 
         } catch (err) {
             console.log("ERROR:", err)
