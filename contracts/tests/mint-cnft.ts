@@ -38,7 +38,7 @@ describe("create collection nft", async () => {
     };
 
     const [collectionPDA] = anchor.web3.PublicKey.findProgramAddressSync(
-        [Buffer.from("gululu_collection")],
+        [Buffer.from("platinum_collection")],
         program.programId
     );
 

@@ -53,7 +53,7 @@ pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
 
     // Generating signer seeds
     let signer_seeds: &[&[&[u8]]] =
-        &[&["gululu_collection".as_bytes(), &[ctx.bumps.collection_mint]]];
+        &[&["platinum_collection".as_bytes(), &[ctx.bumps.collection_mint]]];
 
     let treasury = &mut ctx.accounts.treasury;
     let count: u16;
@@ -74,12 +74,12 @@ pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
         return Err(ErrorCode::BarkBallerBundleMintEnded.into());
     } else {
         treasury.count -= 1;
-        count = 100 - treasury.count;
+        count = 99 - treasury.count;
     }
 
-    let name = "PlantinumNode".to_string();
+    let name = "Plantinum Node".to_string();
 
-    let uri = format!(" https://ipfs.io/ipfs{}/{}.json", name, count);
+    let uri = format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmVzf4KKB6ztH82pczKDMyVegogfVGjVmyTb3ojz9zR7S2/{}.json", count);
 
     let symbol = "PNODE".to_string();
 
@@ -209,7 +209,7 @@ pub struct CreateNftInCollection<'info> {
     pub treasury: Box<Account<'info, Treasury>>,
     #[account(
         mut,
-        seeds = [b"gululu_collection"],
+        seeds = [b"platinum_collection"],
         bump,
     )]
     pub collection_mint: Account<'info, Mint>,
