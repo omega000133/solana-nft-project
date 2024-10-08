@@ -6,7 +6,7 @@ use anchor_lang::prelude::*;
 pub fn initialize_treasury(ctx: Context<InitializeTreasury>) -> Result<()> {
     let treasury = &mut ctx.accounts.treasury;
     treasury.authority = ctx.accounts.authority.key();
-    treasury.mint_price = 30;
+    treasury.mint_price = 1;
     treasury.count = 100;
     
     Ok(())

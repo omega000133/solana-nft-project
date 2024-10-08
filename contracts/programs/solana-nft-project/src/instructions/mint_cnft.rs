@@ -131,7 +131,7 @@ pub struct CreateCollectionNft<'info> {
     #[account(mut)]
     pub authority: Signer<'info>,
     #[account(
-        init,
+        init_if_needed,
         seeds = [b"platinum_collection"],
         bump,
         payer = authority,
