@@ -20,15 +20,9 @@ describe("init nft", async () => {
 
   const signer = provider.wallet;
 
-  // const umi = createUmi("https://api.devnet.solana.com")
-  //   .use(walletAdapterIdentity(signer))
-  //   .use(mplTokenMetadata());
-
-    const umi = createUmi("https://staging-rpc.dev2.eclipsenetwork.xyz")
+  const umi = createUmi("https://staging-rpc.dev2.eclipsenetwork.xyz")
     .use(walletAdapterIdentity(signer))
     .use(mplTokenMetadata());
-
-    // https://staging-rpc.dev2.eclipsenetwork.xyz
 
   const mint = anchor.web3.Keypair.generate();
 

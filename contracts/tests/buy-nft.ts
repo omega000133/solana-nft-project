@@ -37,14 +37,14 @@ describe("mint nft in collection", async () => {
         program.programId
     );
 
-    // before(async () => {
-    //     await program.methods
-    //         .initTreasury()
-    //         .accounts({
-    //             authority: signer.publicKey,
-    //         })
-    //         .rpc();
-    // })
+    before(async () => {
+        await program.methods
+            .initTreasury()
+            .accounts({
+                authority: signer.publicKey,
+            })
+            .rpc();
+    })
 
     it("mint nft in collection", async () => {
         let treasury = await program.account.treasury.fetch(treasuryPda);

@@ -48,20 +48,15 @@ describe("create collection nft", async () => {
     );
 
     it("create collection nft!", async () => {
-        // console.log("Collection PDA:", collectionPDA)
         //derive the master edition pda
         let collectionMasterEditionPDA = findMasterEditionPda(umi, {
             mint: publicKey(collectionPDA),
         })[0];
 
-        // console.log("Collection master edition pda:", collectionMasterEditionPDA)
-
         // derive the metadata account
         let collectionMetadataPDA = findMetadataPda(umi, {
             mint: publicKey(collectionPDA),
         })[0];
-
-        // console.log("Collection metada pda:", collectionMetadataPDA)
 
         try {
             const modifyComputeUnits =
