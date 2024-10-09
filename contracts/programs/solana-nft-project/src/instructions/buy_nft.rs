@@ -1,7 +1,10 @@
-use anchor_lang::prelude::*;
-use anchor_lang::solana_program::native_token::LAMPORTS_PER_SOL;
-use anchor_lang::solana_program::program::invoke_signed;
-use anchor_lang::system_program;
+use anchor_lang::{
+    prelude::*,
+    solana_program::{
+        native_token::LAMPORTS_PER_SOL, 
+        program::invoke_signed},
+    system_program,
+};
 use anchor_spl::{
     associated_token::AssociatedToken,
     token::{mint_to, Mint, MintTo, Token, TokenAccount},
@@ -15,7 +18,7 @@ use mpl_token_metadata::{
     types::DataV2,
 };
 
-use crate::state::Treasury;
+use crate::{error::ErrorCode, state::*};
 
 pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
     ctx: Context<'a, 'b, 'c, 'info, CreateNftInCollection<'info>>,
@@ -52,8 +55,10 @@ pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
     }
 
     // Generating signer seeds
-    let signer_seeds: &[&[&[u8]]] =
-        &[&["platinum_collection".as_bytes(), &[ctx.bumps.collection_mint]]];
+    let signer_seeds: &[&[&[u8]]] = &[&[
+        "platinum_collection".as_bytes(),
+        &[ctx.bumps.collection_mint],
+    ]];
 
     let treasury = &mut ctx.accounts.treasury;
     let count: u16;
@@ -77,7 +82,7 @@ pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
         count = 99 - treasury.count;
     }
 
-    let name = "Plantinum Node".to_string();
+    let name = "Platinum Node".to_string();
 
     let uri = format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmVzf4KKB6ztH82pczKDMyVegogfVGjVmyTb3ojz9zR7S2/{}.json", count);
 
@@ -241,32 +246,4 @@ pub struct CreateNftInCollection<'info> {
     #[account(address = mpl_token_metadata::ID)]
     pub token_metadata_program: UncheckedAccount<'info>,
     pub rent: Sysvar<'info, Rent>,
-}
-
-#[error_code]
-pub enum ErrorCode {
-    #[msg("Invalid Metadata Account provided.")]
-    InvalidMetadataAccount,
-    #[msg("Invalid Master Edition Account provided.")]
-    InvalidMasterEditionAccount,
-    #[msg("Invalid Collection Metadata Account provided.")]
-    InvalidCollectionMetadataAccount,
-    #[msg("Invalid Collection Master Edition Account provided.")]
-    InvalidCollectionMasterEditionAccount,
-    #[msg("Unauthorized action.")]
-    Unauthorized,
-    #[msg("Insufficient funds in the treasury account.")]
-    InsufficientFunds,
-    #[msg("Discount can not be more than 100")]
-    InvalidDiscount,
-    #[msg("Price Feed is down at the moment")]
-    PriceFeedIsDown,
-    #[msg("Invalid Price Feed Address")]
-    InvalidPriceFeed,
-    #[msg("Platinum Node Category Mint Limit Exceeded")]
-    LimitExceeded,
-    #[msg("Plantinum Node collection has ended. No more NFTs are available to mint in this category. Check other categories")]
-    MintEnded,
-    #[msg("Warning: Invalid Whitelist token, Only whitelisted tokens are allowed")]
-    InvalidMint,
 }

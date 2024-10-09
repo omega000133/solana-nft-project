@@ -4,6 +4,7 @@ declare_id!("FuGqSNmxgcdcL69xtDBCBQtxFXH142cM5Fw4r11oHhGC");
 
 mod instructions;
 mod state;
+mod error;
 #[program]
 pub mod solana_nft_project {
     use super::*;
@@ -20,8 +21,13 @@ pub mod solana_nft_project {
     pub fn init_treasury(ctx: Context<InitializeTreasury>) -> Result<()> {
         instructions::initialize_treasury(ctx)
     }
+
     pub fn buy_nft<'a, 'b, 'c, 'info>(ctx: Context<'a, 'b, 'c, 'info, CreateNftInCollection<'info>>) -> Result<()> {
         instructions::buy_collection_nft(ctx)
+    }
+
+    pub fn update_nft<'a, 'b, 'c, 'info>(ctx: Context<'a, 'b, 'c, 'info, UpdateNftInCollection<'info>>, count:u8, status:String) -> Result<()> {
+        instructions::update_nft(ctx, count, status)
     }
 }
 
