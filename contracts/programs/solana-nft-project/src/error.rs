@@ -26,4 +26,6 @@ pub enum ErrorCode {
     MintEnded,
     #[msg("Warning: Invalid Whitelist token, Only whitelisted tokens are allowed")]
     InvalidMint,
+    #[msg("Invalid status")]
+    InvalidStatus
 }
