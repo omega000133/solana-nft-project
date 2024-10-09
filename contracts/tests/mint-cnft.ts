@@ -32,7 +32,7 @@ describe("create collection nft", async () => {
     };
 
     const testCollectionMetadata = {
-        uri: "https://black-cheap-koala-709.mypinata.cloud/ipfs/QmVzf4KKB6ztH82pczKDMyVegogfVGjVmyTb3ojz9zR7S2/collection.json",
+        uri: "https://black-cheap-koala-709.mypinata.cloud/ipfs/QmU4kEZh9jKfbZLjuDV3aKcf8LwL8qPZ6c4vekPiddmjaW/collection.json",
         name: "Platinum Node",
         symbol: "PNODE"
     };
@@ -48,20 +48,15 @@ describe("create collection nft", async () => {
     );
 
     it("create collection nft!", async () => {
-        // console.log("Collection PDA:", collectionPDA)
         //derive the master edition pda
         let collectionMasterEditionPDA = findMasterEditionPda(umi, {
             mint: publicKey(collectionPDA),
         })[0];
 
-        // console.log("Collection master edition pda:", collectionMasterEditionPDA)
-
         // derive the metadata account
         let collectionMetadataPDA = findMetadataPda(umi, {
             mint: publicKey(collectionPDA),
         })[0];
-
-        // console.log("Collection metada pda:", collectionMetadataPDA)
 
         try {
             const modifyComputeUnits =

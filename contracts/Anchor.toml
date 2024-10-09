@@ -5,7 +5,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-solana_nft_project = "FuGqSNmxgcdcL69xtDBCBQtxFXH142cM5Fw4r11oHhGC"
+solana_nft_project = "CKtYyZxLMLZbvo8Lt482gp1q7j93xCn7dDtLJAwvWzMi"
 
 [registry]
 url = "https://api.apr.dev"

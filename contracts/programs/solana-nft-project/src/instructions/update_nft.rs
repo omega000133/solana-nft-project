@@ -6,9 +6,8 @@ use anchor_spl::{
 use mpl_token_metadata::{
     accounts::{MasterEdition, Metadata as MetadataAccount},
     instructions::{
-        SetAndVerifySizedCollectionItem, UnverifyCollectionCpi, UnverifyCollectionCpiAccounts,
         UpdateMetadataAccountV2, UpdateMetadataAccountV2InstructionArgs,
-        UnverifyCollection, UnverifySizedCollectionItem
+         UnverifySizedCollectionItem
     },
     types::DataV2,
 };
@@ -64,10 +63,10 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
     let name = "Platinum Node".to_string();
 
     let uri = match status.as_str() {
-        "active" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmVzf4KKB6ztH82pczKDMyVegogfVGjVmyTb3ojz9zR7S2/{}.json", count-1),
-        "frozen" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmRaKJYS6UhTjWFTpxHxaSBrViwQHpc2Xg3ZUQ5A9TWMwg/{}.json", count-1),
-        "burned" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmV3eY6Aj2WmHYoMpxNZgpyUg45SHFdTvYtV6JgfPFJ27V/{}.json", count-1),
-        _ => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmVzf4KKB6ztH82pczKDMyVegogfVGjVmyTb3ojz9zR7S2/{}.json", count-1),
+        "active" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmU4kEZh9jKfbZLjuDV3aKcf8LwL8qPZ6c4vekPiddmjaW/{}.json", count-1),
+        "frozen" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmdtM3iNZNVFTw9PeTF8Xy1qRB9YhiKnnYCkkQMLZcDSq8/{}.json", count-1),
+        "burned" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmRCmuzneBgtZ41jPaC4wyLfogi6NAJrejYeVaTHCMn54v/{}.json", count-1),
+        _ => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmU4kEZh9jKfbZLjuDV3aKcf8LwL8qPZ6c4vekPiddmjaW/{}.json", count-1),
     };
 
     let symbol = "PNODE".to_string();
@@ -126,20 +125,6 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
         primary_sale_happened: Some(false),
         is_mutable: Some(true),
     });
-
-    // // Unverify collection first
-    // UnverifyCollectionCpi::new(
-    //     &ctx.accounts.token_metadata_program.to_account_info(),
-    //     UnverifyCollectionCpiAccounts {
-    //         metadata: &metadata_account_info.to_account_info(),
-    //         collection_authority: &ctx.accounts.collection_mint.to_account_info(),
-    //         collection_mint: &ctx.accounts.collection_mint.to_account_info(),
-    //         collection: &collection_master_edition_info,
-    //         collection_master_edition_account: &collection_master_edition_info,
-    //         collection_authority_record: None,
-    //     },
-    // )
-    // .invoke_signed(signer_seeds)?;
 
     invoke_signed(
         update_metadata_instruction_data,
