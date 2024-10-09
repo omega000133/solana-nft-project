@@ -4,6 +4,7 @@ declare_id!("FuGqSNmxgcdcL69xtDBCBQtxFXH142cM5Fw4r11oHhGC");
 
 mod instructions;
 mod state;
+mod error;
 #[program]
 pub mod solana_nft_project {
     use super::*;
