@@ -84,7 +84,7 @@ pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
 
     let name = format!("Platinum Node #{}", count+1);
 
-    let uri = format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmVzf4KKB6ztH82pczKDMyVegogfVGjVmyTb3ojz9zR7S2/{}.json", count);
+    let uri = format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmU4kEZh9jKfbZLjuDV3aKcf8LwL8qPZ6c4vekPiddmjaW/{}.json", count);
 
     let symbol = "PNODE".to_string();
 
