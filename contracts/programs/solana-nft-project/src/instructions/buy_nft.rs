@@ -82,7 +82,7 @@ pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
         count = 99 - treasury.count;
     }
 
-    let name = "Plantinum Node".to_string();
+    let name = "Platinum Node".to_string();
 
     let uri = format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmVzf4KKB6ztH82pczKDMyVegogfVGjVmyTb3ojz9zR7S2/{}.json", count);
 

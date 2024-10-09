@@ -1,15 +1,14 @@
-use anchor_lang::{
-    prelude::*,
-    solana_program::program::invoke_signed,
-};
+use anchor_lang::{prelude::*, solana_program::program::invoke_signed};
 use anchor_spl::{
     associated_token::AssociatedToken,
-    token::{ Mint, Token},
+    token::{Mint, Token},
 };
 use mpl_token_metadata::{
     accounts::{MasterEdition, Metadata as MetadataAccount},
     instructions::{
-        UpdateMetadataAccountV2, UpdateMetadataAccountV2InstructionArgs
+        SetAndVerifySizedCollectionItem, UnverifyCollectionCpi, UnverifyCollectionCpiAccounts,
+        UpdateMetadataAccountV2, UpdateMetadataAccountV2InstructionArgs,
+        UnverifyCollection, UnverifySizedCollectionItem
     },
     types::DataV2,
 };
@@ -62,7 +61,7 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
         &[ctx.bumps.collection_mint],
     ]];
 
-    let name = "Plantinum Node".to_string();
+    let name = "Platinum Node".to_string();
 
     let uri = match status.as_str() {
         "active" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmVzf4KKB6ztH82pczKDMyVegogfVGjVmyTb3ojz9zR7S2/{}.json", count-1),
@@ -70,7 +69,7 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
         "burned" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmV3eY6Aj2WmHYoMpxNZgpyUg45SHFdTvYtV6JgfPFJ27V/{}.json", count-1),
         _ => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmVzf4KKB6ztH82pczKDMyVegogfVGjVmyTb3ojz9zR7S2/{}.json", count-1),
     };
-    
+
     let symbol = "PNODE".to_string();
 
     let account_info = vec![
@@ -83,6 +82,31 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
         ctx.accounts.system_program.to_account_info(),
         ctx.accounts.rent.to_account_info(),
     ];
+
+    let account_info_unverify_sized_collection = vec![
+        metadata_account_info.to_account_info(),
+        collection_metadata_account_info.to_account_info(),
+        ctx.accounts.collection_mint.to_account_info(),
+        ctx.accounts.user.to_account_info(),
+        collection_master_edition_info.to_account_info(),
+    ];
+
+    let unverify_sized_collection_item = &UnverifySizedCollectionItem {
+        metadata: metadata_account_info.key(),
+        collection_authority: ctx.accounts.collection_mint.key(),
+        payer: ctx.accounts.user.key(),
+        collection_mint: ctx.accounts.collection_mint.key(),
+        collection: collection_metadata_account_info.key(),
+        collection_master_edition_account: collection_master_edition_info.key(),
+        collection_authority_record: None,
+    }
+    .instruction();
+
+    invoke_signed(
+        unverify_sized_collection_item,
+        account_info_unverify_sized_collection.as_slice(),
+        &signer_seeds,
+    )?;
 
     let update_metadata_instruction_data = &UpdateMetadataAccountV2 {
         metadata: metadata_account_info.key(),
@@ -102,6 +126,20 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
         primary_sale_happened: Some(false),
         is_mutable: Some(true),
     });
+
+    // // Unverify collection first
+    // UnverifyCollectionCpi::new(
+    //     &ctx.accounts.token_metadata_program.to_account_info(),
+    //     UnverifyCollectionCpiAccounts {
+    //         metadata: &metadata_account_info.to_account_info(),
+    //         collection_authority: &ctx.accounts.collection_mint.to_account_info(),
+    //         collection_mint: &ctx.accounts.collection_mint.to_account_info(),
+    //         collection: &collection_master_edition_info,
+    //         collection_master_edition_account: &collection_master_edition_info,
+    //         collection_authority_record: None,
+    //     },
+    // )
+    // .invoke_signed(signer_seeds)?;
 
     invoke_signed(
         update_metadata_instruction_data,
@@ -123,12 +161,7 @@ pub struct UpdateNftInCollection<'info> {
     )]
     pub collection_mint: Account<'info, Mint>,
 
-    #[account(
-        mut,
-        mint::decimals = 0,
-        mint::authority = collection_mint,
-        mint::freeze_authority = collection_mint
-    )]
+    #[account(mut)]
     pub nft_mint: Account<'info, Mint>,
 
     pub system_program: Program<'info, System>,
