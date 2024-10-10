@@ -1,14 +1,14 @@
 'use client'
 
 import Link from 'next/link'
-import {usePathname} from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import * as React from 'react'
-import {ReactNode, Suspense, useEffect, useRef} from 'react'
-import toast, {Toaster} from 'react-hot-toast'
+import { ReactNode, Suspense, useEffect, useRef } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
 
-import {AccountChecker} from '../account/account-ui'
-import {ClusterChecker, ClusterUiSelect, ExplorerLink} from '../cluster/cluster-ui'
-import {WalletButton} from '../solana/solana-provider'
+import { AccountChecker } from '../account/account-ui'
+import { ClusterChecker, ClusterUiSelect, ExplorerLink } from '../cluster/cluster-ui'
+import { WalletButton } from '../solana/solana-provider'
 
 export function UiLayout({ children, links }: { children: ReactNode; links: { label: string; path: string }[] }) {
   const pathname = usePathname()
@@ -38,7 +38,7 @@ export function UiLayout({ children, links }: { children: ReactNode; links: { la
       <ClusterChecker>
         <AccountChecker />
       </ClusterChecker>
-      <div className="flex-grow mx-4 lg:mx-auto">
+      <div className="flex-grow mx-4">
         <Suspense
           fallback={
             <div className="text-center my-32">
