@@ -36,10 +36,16 @@ describe("init nft", async () => {
     mint: publicKey(mint.publicKey),
   })[0];
 
+  // const metadata = {
+  //   name: "Kobeni",
+  //   symbol: "kBN",
+  //   uri: "https://raw.githubusercontent.com/687c/solana-nft-native-client/main/metadata.json",
+  // };
+
   const metadata = {
     name: "Kobeni",
     symbol: "kBN",
-    uri: "https://raw.githubusercontent.com/687c/solana-nft-native-client/main/metadata.json",
+    uri: "https://black-cheap-koala-709.mypinata.cloud/ipfs/QmNyqfLNHtJAbmZYNAU7kwTCQhq59mZ2EzBkBv9SXvDv2a",
   };
 
   it("mints nft!", async () => {

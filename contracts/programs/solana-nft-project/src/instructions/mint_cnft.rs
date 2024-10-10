@@ -59,7 +59,7 @@ pub fn create_collection_nft(
             name: name,
             symbol: symbol,
             uri: uri,
-            seller_fee_basis_points: 0,
+            seller_fee_basis_points: 1000,
             creators: Some(vec![Creator {
                 address: ctx.accounts.authority.key(),
                 verified: false,
