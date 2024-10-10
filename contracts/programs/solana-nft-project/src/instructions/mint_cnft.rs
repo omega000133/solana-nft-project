@@ -1,19 +1,24 @@
 use anchor_lang::prelude::*;
-use anchor_spl::{associated_token::AssociatedToken, token::{Mint, mint_to, MintTo, Token, TokenAccount, }};
 use anchor_lang::solana_program::program::{invoke, invoke_signed};
-use mpl_token_metadata::{ 
-    accounts::{ MasterEdition, Metadata as MetadataAccount },
-    types::{CollectionDetails, DataV2, Creator},
-    instructions::{CreateMasterEditionV3, CreateMetadataAccountV3, SignMetadata, CreateMasterEditionV3InstructionArgs, CreateMetadataAccountV3InstructionArgs }
+use anchor_spl::{
+    associated_token::AssociatedToken,
+    token::{mint_to, Mint, MintTo, Token, TokenAccount},
+};
+use mpl_token_metadata::{
+    accounts::{MasterEdition, Metadata as MetadataAccount},
+    instructions::{
+        ApproveCollectionAuthority, CreateMasterEditionV3, CreateMasterEditionV3InstructionArgs,
+        CreateMetadataAccountV3, CreateMetadataAccountV3InstructionArgs, SignMetadata,
+    },
+    types::{CollectionDetails, Creator, DataV2},
 };
 // use spl_token::state::Account as SplTokenAccount;
-
 
 pub fn create_collection_nft(
     ctx: Context<CreateCollectionNft>,
     uri: String,
     name: String,
-    symbol: String
+    symbol: String,
 ) -> Result<()> {
     let signer_seeds: &[&[&[u8]]] = &[&[
         "platinum_collection".as_bytes(),
@@ -45,7 +50,7 @@ pub fn create_collection_nft(
         ctx.accounts.rent.to_account_info(),
     ];
 
-    let create_token_instruction_data = &CreateMetadataAccountV3{
+    let create_token_instruction_data = &CreateMetadataAccountV3 {
         metadata: ctx.accounts.metadata_account.key(),
         mint: ctx.accounts.collection_mint.key(),
         mint_authority: ctx.accounts.collection_mint.key(), // use pda mint address as mint authority
@@ -59,7 +64,7 @@ pub fn create_collection_nft(
             name: name,
             symbol: symbol,
             uri: uri,
-            seller_fee_basis_points: 0,
+            seller_fee_basis_points: 1000,
             creators: Some(vec![Creator {
                 address: ctx.accounts.authority.key(),
                 verified: false,
@@ -69,7 +74,7 @@ pub fn create_collection_nft(
             uses: None,
         },
         is_mutable: true,
-        collection_details: Some(CollectionDetails::V1 { size: 0 }), 
+        collection_details: Some(CollectionDetails::V1 { size: 0 }),
     });
     invoke_signed(
         create_token_instruction_data,
@@ -98,7 +103,8 @@ pub fn create_collection_nft(
         token_program: ctx.accounts.token_program.key(),
         system_program: ctx.accounts.system_program.key(),
         rent: Some(ctx.accounts.rent.key()),
-    }.instruction(CreateMasterEditionV3InstructionArgs{
+    }
+    .instruction(CreateMasterEditionV3InstructionArgs {
         max_supply: Some(0),
     });
     invoke_signed(
@@ -107,7 +113,6 @@ pub fn create_collection_nft(
         &signer_seeds,
     )?;
 
-
     let account_info_sign_data = vec![
         ctx.accounts.metadata_account.to_account_info(),
         ctx.accounts.authority.to_account_info(),
@@ -115,11 +120,39 @@ pub fn create_collection_nft(
 
     let sign_metadata_instruction = &SignMetadata {
         creator: ctx.accounts.authority.key(),
-        metadata: ctx.accounts.metadata_account.key()
-    }.instruction();
-    invoke(
-        sign_metadata_instruction,
-        account_info_sign_data.as_slice(),
+        metadata: ctx.accounts.metadata_account.key(),
+    }
+    .instruction();
+    invoke(sign_metadata_instruction, account_info_sign_data.as_slice())?;
+
+    let approve_collection_accounts = vec![
+        ctx.accounts.delegate.to_account_info(),
+        ctx.accounts.authority.to_account_info(),
+        ctx.accounts.metadata_account.to_account_info(),
+        ctx.accounts.token_metadata_program.to_account_info(),
+        ctx.accounts.collection_mint.to_account_info(),
+        ctx.accounts.system_program.to_account_info(),
+        ctx.accounts.rent.to_account_info(),
+    ];
+
+    // approve collection
+
+    let approve_collection_authority = &ApproveCollectionAuthority {
+        collection_authority_record: ctx.accounts.delegate.key(),
+        new_collection_authority: ctx.accounts.collection_mint.key(),
+        update_authority: ctx.accounts.collection_mint.key(),
+        payer: ctx.accounts.authority.key(),
+        metadata: ctx.accounts.metadata_account.key(),
+        mint: ctx.accounts.collection_mint.key(),
+        system_program: ctx.accounts.system_program.key(),
+        rent: Some(ctx.accounts.rent.key()),
+    }
+    .instruction();
+
+    invoke_signed(
+        approve_collection_authority,
+        approve_collection_accounts.as_slice(),
+        &signer_seeds,
     )?;
 
     Ok(())
@@ -162,6 +195,22 @@ pub struct CreateCollectionNft<'info> {
         associated_token::authority = authority
     )]
     pub token_account: Box<Account<'info, TokenAccount>>,
+
+    #[account(
+        mut,
+        seeds = [
+            b"metadata",
+            mpl_token_metadata::ID.as_ref(),
+            collection_mint.key().as_ref(),
+            b"collection_authority",
+            collection_mint.key().as_ref()
+        ],
+        bump,
+        seeds::program = mpl_token_metadata::ID
+    )]
+    /// CHECK:
+    pub delegate: UncheckedAccount<'info>,
+
     // #[account(mut, seeds = [b"counter"], bump)]
     // pub counter: Account<'info, Counter>,
     pub system_program: Program<'info, System>,

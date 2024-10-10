@@ -22,7 +22,7 @@ pub enum ErrorCode {
     InvalidPriceFeed,
     #[msg("Platinum Node Category Mint Limit Exceeded")]
     LimitExceeded,
-    #[msg("Plantinum Node collection has ended. No more NFTs are available to mint in this category. Check other categories")]
+    #[msg("Platinum Node collection has ended. No more NFTs are available to mint in this category. Check other categories")]
     MintEnded,
     #[msg("Warning: Invalid Whitelist token, Only whitelisted tokens are allowed")]
     InvalidMint,

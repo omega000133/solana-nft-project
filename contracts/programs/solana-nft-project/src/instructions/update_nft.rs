@@ -6,10 +6,9 @@ use anchor_spl::{
 use mpl_token_metadata::{
     accounts::{MasterEdition, Metadata as MetadataAccount},
     instructions::{
-        UpdateMetadataAccountV2, UpdateMetadataAccountV2InstructionArgs,
-         UnverifySizedCollectionItem
+        UnverifySizedCollectionItem, UpdateMetadataAccountV2, UpdateMetadataAccountV2InstructionArgs
     },
-    types::DataV2,
+    types::{Collection, Creator, DataV2},
 };
 
 use crate::error::ErrorCode;
@@ -116,9 +115,16 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
             name: name,
             symbol: symbol,
             uri: uri,
-            seller_fee_basis_points: 0,
-            creators: None,
-            collection: None,
+            seller_fee_basis_points: 1000,
+            creators: Some(vec![Creator {
+                address: ctx.accounts.user.key(),
+                verified: false,
+                share: 100,
+            }]),
+            collection: Some(Collection {
+                verified: false,
+                key: ctx.accounts.collection_mint.key()
+            }),
             uses: None,
         }),
         new_update_authority: Some(ctx.accounts.collection_mint.key()),

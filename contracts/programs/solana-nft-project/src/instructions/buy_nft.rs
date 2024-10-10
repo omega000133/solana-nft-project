@@ -15,7 +15,7 @@ use mpl_token_metadata::{
         CreateMasterEditionV3, CreateMasterEditionV3InstructionArgs, CreateMetadataAccountV3,
         CreateMetadataAccountV3InstructionArgs, SetAndVerifySizedCollectionItem,
     },
-    types::DataV2,
+    types::{Collection, Creator, DataV2},
 };
 
 use crate::{error::ErrorCode, state::*};
@@ -127,9 +127,16 @@ pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
             name: name,
             symbol: symbol,
             uri: uri,
-            seller_fee_basis_points: 0,
-            creators: None,
-            collection: None,
+            seller_fee_basis_points: 1000,
+            creators: Some(vec![Creator {
+                address: ctx.accounts.user.key(),
+                verified: false,
+                share: 100,
+            }]),
+            collection: Some(Collection {
+                verified: false,
+                key: ctx.accounts.collection_mint.key()
+            }),
             uses: None,
         },
         is_mutable: true,
@@ -172,6 +179,36 @@ pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
         account_info_master_edition.as_slice(),
         &signer_seeds,
     )?;
+
+    //verify collection
+    // let verify_collection_account = vec![
+    //     ctx.accounts.collection_mint.to_account_info(),
+    //     ctx.accounts.user.to_account_info(),
+    //     metadata_account_info.to_account_info(),
+    //     ctx.accounts.token_metadata_program.to_account_info(),
+    //     ctx.accounts.token_program.to_account_info(),
+    //     ctx.accounts.system_program.to_account_info(),
+    //     ctx.accounts.rent.to_account_info(),
+    //     collection_metadata_account_info.to_account_info(),
+    //     collection_master_edition_info.to_account_info(),
+    //     collection_authority_record.to_account_info()
+    // ];
+
+    // let verify_collection = &VerifyCollection {
+    //     metadata: metadata_account_info.key(),
+    //     collection_authority: ctx.accounts.collection_mint.key(),
+    //     payer: ctx.accounts.user.key(),
+    //     collection_mint: ctx.accounts.collection_mint.key(),
+    //     collection: collection_metadata_account_info.key(),
+    //     collection_master_edition_account: collection_master_edition_info.key(),
+    //     collection_authority_record: Some(collection_authority_record.key())      
+    // }.instruction();
+
+    // invoke_signed(
+    //     verify_collection,
+    //     verify_collection_account.as_slice(),
+    //     &signer_seeds,
+    // )?;
 
     let account_info_set_and_verify_sized_collection = vec![
         metadata_account_info.to_account_info(),
