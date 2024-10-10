@@ -139,7 +139,7 @@ pub fn create_collection_nft(
 
     let approve_collection_authority = &ApproveCollectionAuthority {
         collection_authority_record: ctx.accounts.delegate.key(),
-        new_collection_authority: ctx.accounts.authority.key(),
+        new_collection_authority: ctx.accounts.collection_mint.key(),
         update_authority: ctx.accounts.collection_mint.key(),
         payer: ctx.accounts.authority.key(),
         metadata: ctx.accounts.metadata_account.key(),
@@ -203,7 +203,7 @@ pub struct CreateCollectionNft<'info> {
             mpl_token_metadata::ID.as_ref(),
             collection_mint.key().as_ref(),
             b"collection_authority",
-            authority.key().as_ref()
+            collection_mint.key().as_ref()
         ],
         bump,
         seeds::program = mpl_token_metadata::ID

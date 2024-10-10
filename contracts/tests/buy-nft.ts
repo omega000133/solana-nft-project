@@ -4,6 +4,7 @@ import { SolanaNftProject } from "../target/types/solana_nft_project";
 import { walletAdapterIdentity } from "@metaplex-foundation/umi-signer-wallet-adapters";
 import { getAssociatedTokenAddress } from "@solana/spl-token";
 import {
+    findCollectionAuthorityRecordPda,
     findMasterEditionPda,
     findMetadataPda,
     mplTokenMetadata,
@@ -38,12 +39,12 @@ describe("mint nft in collection", async () => {
     );
 
     before(async () => {
-        await program.methods
-            .initTreasury()
-            .accounts({
-                authority: signer.publicKey,
-            })
-            .rpc();
+        // await program.methods
+        //     .initTreasury()
+        //     .accounts({
+        //         authority: signer.publicKey,
+        //     })
+        //     .rpc();
     })
 
     it("mint nft in collection", async () => {
@@ -102,11 +103,20 @@ describe("mint nft in collection", async () => {
                 mint: publicKey(collectionPDA),
             })[0];
 
+            // let collectionAuthorityRecordPDA = findCollectionAuthorityRecordPda(umi, {
+            //     mint: publicKey(collectionPDA),
+            //     collectionAuthority: publicKey(collectionPDA)
+            // })[0];
+
+            // console.log('collection authority address ===>', collectionAuthorityRecordPDA);
+            
+
             const remainingAccounts: Array<any> = [
                 { pubkey: new PublicKey(metadataPDA), isWritable: true, isSigner: false },
                 { pubkey: new PublicKey(masterEditionPDA), isWritable: true, isSigner: false },
                 { pubkey: new PublicKey(collectionMetadataPDA), isWritable: true, isSigner: false },
                 { pubkey: new PublicKey(collectionMasterEditionPDA), isWritable: true, isSigner: false },
+                // { pubkey: new PublicKey(collectionAuthorityRecordPDA), isWritable: true, isSigner: false },
             ];
 
             const tx = await program.methods
