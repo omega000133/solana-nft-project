@@ -30,7 +30,8 @@ export const useAnchorValues = () => {
     const programId: string = IDL.address;
     const program = new Program<SolanaNftProject>(IDL, provider);
 
-    const umi = createUmi("https://staging-rpc.dev2.eclipsenetwork.xyz")
+    // const umi = createUmi("https://staging-rpc.dev2.eclipsenetwork.xyz")
+    const umi = createUmi("https://api.devnet.solana.com")
         .use(walletAdapterIdentity(wallet))
         .use(mplTokenMetadata());
 
@@ -64,11 +65,16 @@ export const useAnchorValues = () => {
         { pubkey: new PublicKey(collectionMasterEditionPDA), isWritable: true, isSigner: false },
     ];
 
+    const treasuryWallet = new PublicKey(process.env.NEXT_PUBLIC_TEASURY_WALLET!);
+
     return {
         program,
         connection,
         programId,
         mint,
-        remainingAccounts
+        remainingAccounts,
+        treasuryWallet,
+        collectionPDA,
+        umi
     };
 };

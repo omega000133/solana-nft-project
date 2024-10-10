@@ -6,7 +6,8 @@ use anchor_spl::{
 use mpl_token_metadata::{
     accounts::{MasterEdition, Metadata as MetadataAccount},
     instructions::{
-        UnverifySizedCollectionItem, UpdateMetadataAccountV2, UpdateMetadataAccountV2InstructionArgs
+        UnverifySizedCollectionItem, UpdateMetadataAccountV2,
+        UpdateMetadataAccountV2InstructionArgs,
     },
     types::{Collection, Creator, DataV2},
 };
@@ -59,7 +60,7 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
         &[ctx.bumps.collection_mint],
     ]];
 
-    let name = "Platinum Node".to_string();
+    let name = format!("Platinum Node #{}", count);
 
     let uri = match status.as_str() {
         "active" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmU4kEZh9jKfbZLjuDV3aKcf8LwL8qPZ6c4vekPiddmjaW/{}.json", count-1),
@@ -123,7 +124,7 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
             }]),
             collection: Some(Collection {
                 verified: false,
-                key: ctx.accounts.collection_mint.key()
+                key: ctx.accounts.collection_mint.key(),
             }),
             uses: None,
         }),
