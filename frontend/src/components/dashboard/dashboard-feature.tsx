@@ -1,31 +1,57 @@
-'use client'
+'use client';
 
-import { AppHero } from '../ui/ui-layout'
+import { useAnchorValues } from '../../../anchor/setup';
+import { useEffect, useState } from 'react';
+import { CircularProgress } from '@mui/material';
+import { publicKey } from "@metaplex-foundation/umi";
 
-const links: { label: string; href: string }[] = [
-  { label: 'Solana Docs', href: 'https://docs.solana.com/' },
-  { label: 'Solana Faucet', href: 'https://faucet.solana.com/' },
-  { label: 'Solana Cookbook', href: 'https://solanacookbook.com/' },
-  { label: 'Solana Stack Overflow', href: 'https://solana.stackexchange.com/' },
-  { label: 'Solana Developers GitHub', href: 'https://github.com/solana-developers/' },
-]
+import { fetchAllDigitalAssetByUpdateAuthority } from '@metaplex-foundation/mpl-token-metadata';
 
 export default function DashboardFeature() {
+  const { collectionPDA, umi } = useAnchorValues();
+  const [nfts, setNfts] = useState<any>();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCollectionNFTs = async () => {
+      try {
+        const allNFTs = await fetchAllDigitalAssetByUpdateAuthority(
+          umi,
+          publicKey(collectionPDA),
+        );
+
+        const filteredNFTs = allNFTs.filter((nft: any) => nft.publicKey !== collectionPDA.toBase58()).sort((a: any, b: any) => a.metadata.name.localeCompare(b.metadata.name));
+        console.log(filteredNFTs);
+        setNfts(filteredNFTs);
+      } catch (error) {
+        console.error('Error fetching collection NFTs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCollectionNFTs();
+  }, []);
+
   return (
     <div>
-      <AppHero title="gm" subtitle="Say hi to your new Solana dApp." />
-      <div className="max-w-xl mx-auto py-6 sm:px-6 lg:px-8 text-center">
-        <div className="space-y-2">
-          <p>Here are some helpful links to get you started.</p>
-          {links.map((link, index) => (
-            <div key={index}>
-              <a href={link.href} className="link" target="_blank" rel="noopener noreferrer">
-                {link.label}
-              </a>
-            </div>
-          ))}
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <div>
+          {nfts && nfts.length > 0 ? (
+            nfts.map((nft: any, index: any) => (
+              <div key={index}>
+                {/* <p>NFT Name: {nft.publicKey.toBase58()}</p>
+                <p>Mint Address: {nft.publicKey}</p> */}
+                {index}
+              </div>
+            ))
+          ) : (
+            <p>No NFTs found in the collection.</p>
+          )}
         </div>
-      </div>
+      )}
     </div>
-  )
+  );
 }
