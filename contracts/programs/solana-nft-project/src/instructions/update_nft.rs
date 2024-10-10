@@ -8,7 +8,7 @@ use mpl_token_metadata::{
     instructions::{
         UnverifySizedCollectionItem, UpdateMetadataAccountV2, UpdateMetadataAccountV2InstructionArgs
     },
-    types::{Creator, DataV2},
+    types::{Collection, Creator, DataV2},
 };
 
 use crate::error::ErrorCode;
@@ -121,7 +121,10 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
                 verified: false,
                 share: 100,
             }]),
-            collection: None,
+            collection: Some(Collection {
+                verified: false,
+                key: ctx.accounts.collection_mint.key()
+            }),
             uses: None,
         }),
         new_update_authority: Some(ctx.accounts.collection_mint.key()),

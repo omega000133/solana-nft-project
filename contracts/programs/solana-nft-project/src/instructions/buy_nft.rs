@@ -15,7 +15,7 @@ use mpl_token_metadata::{
         CreateMasterEditionV3, CreateMasterEditionV3InstructionArgs, CreateMetadataAccountV3,
         CreateMetadataAccountV3InstructionArgs, SetAndVerifySizedCollectionItem,
     },
-    types::{Creator, DataV2},
+    types::{Collection, Creator, DataV2},
 };
 
 use crate::{error::ErrorCode, state::*};
@@ -133,7 +133,10 @@ pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
                 verified: false,
                 share: 100,
             }]),
-            collection: None,
+            collection: Some(Collection {
+                verified: false,
+                key: ctx.accounts.collection_mint.key()
+            }),
             uses: None,
         },
         is_mutable: true,
