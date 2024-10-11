@@ -16,55 +16,34 @@ export default function DashboardFeature() {
   useEffect(() => {
     const fetchCollectionNFTs = async () => {
       try {
-        // const allNFTs = await fetchAllDigitalAssetByUpdateAuthority(
-        //   umi,
-        //   publicKey(collectionPDA),
-        // );
+        const allNFTs = await fetchAllDigitalAssetByUpdateAuthority(
+          umi,
+          publicKey(collectionPDA),
+        );
 
-        // const filteredNFTs = await Promise.all(
-        //   allNFTs
-        //     .filter((nft: any) => nft.publicKey !== collectionPDA.toBase58())
-        //     .sort((a: any, b: any) => a.metadata.name.localeCompare(b.metadata.name))
-        //     .map(async (nft) => {
-        //       try {
-        //         const response = await fetch(nft.metadata.uri);
-        //         const metadata = await response.json();
-        //         return {
-        //           name: metadata.name,
-        //           mint: nft.publicKey,
-        //           imageUrl: metadata.image,
-        //           status: metadata.attributes[0].value
-        //         };
-        //       } catch (error) {
-        //         return {
-        //           name: '',
-        //           mint: '',
-        //           imageUrl: '',
-        //           status: ''
-        //         };
-        //       }
-        //     }));
-
-        const filteredNFTs = [
-          {
-            name: 'NFT 1',
-            mint: 'GrXrSnLaME3g9o7sTcH6T6vvKLN3kr1PnS8UX7tZxaB2',
-            imageUrl: 'https://black-cheap-koala-709.mypinata.cloud/ipfs/QmW16rjQ2QAQnXJBEvQGKkYWtCap7RoXZJWLG2bfWVZo7d/frozen.gif',
-            status: 'frozen'
-          },
-          {
-            name: 'NFT 2',
-            mint: 'GrXrSnLaME3g9o7sTcH6T6vvKLN3kr1PnS8UX7tZxaB2',
-            imageUrl: 'https://black-cheap-koala-709.mypinata.cloud/ipfs/QmW16rjQ2QAQnXJBEvQGKkYWtCap7RoXZJWLG2bfWVZo7d/active.gif',
-            status: 'active'
-          },
-          {
-            name: 'NFT 3',
-            mint: 'GrXrSnLaME3g9o7sTcH6T6vvKLN3kr1PnS8UX7tZxaB2',
-            imageUrl: 'https://black-cheap-koala-709.mypinata.cloud/ipfs/QmW16rjQ2QAQnXJBEvQGKkYWtCap7RoXZJWLG2bfWVZo7d/frozen.gif',
-            status: 'active'
-          }
-        ];
+        const filteredNFTs = await Promise.all(
+          allNFTs
+            .filter((nft: any) => nft.publicKey !== collectionPDA.toBase58())
+            .sort((a: any, b: any) => a.metadata.name.localeCompare(b.metadata.name))
+            .map(async (nft) => {
+              try {
+                const response = await fetch(nft.metadata.uri);
+                const metadata = await response.json();
+                return {
+                  name: metadata.name,
+                  mint: nft.publicKey,
+                  imageUrl: metadata.image,
+                  status: metadata.attributes[0].value
+                };
+              } catch (error) {
+                return {
+                  name: '',
+                  mint: '',
+                  imageUrl: '',
+                  status: ''
+                };
+              }
+            }));
 
         console.log(filteredNFTs);
         setNfts(filteredNFTs);

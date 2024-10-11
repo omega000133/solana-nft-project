@@ -69,6 +69,7 @@ export const useAnchorValues = () => {
 
     return {
         program,
+        provider,
         connection,
         programId,
         mint,
