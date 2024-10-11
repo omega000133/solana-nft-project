@@ -15,8 +15,8 @@ export function UiLayout({ children, links }: { children: ReactNode; links: { la
   const pathname = usePathname()
 
   return (
-    <div className="h-full flex flex-col bg-[#08050a]">
-      <div className="navbar bg-[#08050a] p-4 text-neutral-content flex-col md:flex-row space-y-2 md:space-y-0 border-b border-[#1c1326]">
+    <div className="flex flex-col bg-[#08050a]">
+      <div className="navbar fixed top-0 left-0 w-full bg-[#08050a] p-4 text-neutral-content flex-col md:flex-row space-y-2 md:space-y-0 border-b border-[#1c1326]">
         <div className="flex-1">
           <Link className="btn btn-ghost normal-case text-xl" href="/">
             <img className="w-12" alt="Logo" src="/logo.png" />
@@ -52,7 +52,7 @@ export function UiLayout({ children, links }: { children: ReactNode; links: { la
         </Suspense>
         <Toaster position="bottom-right" />
       </div>
-      <footer className="footer footer-center p-6 bg-[#08050a] text-base-content border-t border-[#1c1326] flex justify-end">
+      <footer className="footer fixed bottom-0 left-0 w-full footer-center p-6 bg-[#08050a] text-base-content border-t border-[#1c1326] flex justify-end">
         <MintNFT />
       </footer>
     </div>
