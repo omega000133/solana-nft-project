@@ -32,7 +32,7 @@ describe("create collection nft", async () => {
     };
 
     const testCollectionMetadata = {
-        uri: "https://black-cheap-koala-709.mypinata.cloud/ipfs/QmU4kEZh9jKfbZLjuDV3aKcf8LwL8qPZ6c4vekPiddmjaW/collection.json",
+        uri: "https://black-cheap-koala-709.mypinata.cloud/ipfs/QmPQmjgC3V1WeULvfFffqdVJRZZKodexsRFMmupLUh7r3M/collection.json",
         name: "Platinum Node",
         symbol: "PNODE"
     };

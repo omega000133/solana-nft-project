@@ -1,8 +1,6 @@
 use anchor_lang::{
     prelude::*,
-    solana_program::{
-        native_token::LAMPORTS_PER_SOL, 
-        program::invoke_signed},
+    solana_program::{native_token::LAMPORTS_PER_SOL, program::invoke_signed},
     system_program,
 };
 use anchor_spl::{
@@ -82,9 +80,9 @@ pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
         count = 99 - treasury.count;
     }
 
-    let name = format!("Platinum Node #{}", count+1);
+    let name = format!("Platinum Node #{}", count + 1);
 
-    let uri = format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmU4kEZh9jKfbZLjuDV3aKcf8LwL8qPZ6c4vekPiddmjaW/{}.json", count);
+    let uri = format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmPQmjgC3V1WeULvfFffqdVJRZZKodexsRFMmupLUh7r3M/{}.json", count);
 
     let symbol = "PNODE".to_string();
 
@@ -135,7 +133,7 @@ pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
             }]),
             collection: Some(Collection {
                 verified: false,
-                key: ctx.accounts.collection_mint.key()
+                key: ctx.accounts.collection_mint.key(),
             }),
             uses: None,
         },
@@ -201,7 +199,7 @@ pub fn buy_collection_nft<'a, 'b, 'c, 'info>(
     //     collection_mint: ctx.accounts.collection_mint.key(),
     //     collection: collection_metadata_account_info.key(),
     //     collection_master_edition_account: collection_master_edition_info.key(),
-    //     collection_authority_record: Some(collection_authority_record.key())      
+    //     collection_authority_record: Some(collection_authority_record.key())
     // }.instruction();
 
     // invoke_signed(
