@@ -12,11 +12,9 @@ import { WalletButton } from '../solana/solana-provider'
 import MintNFT from './MintNFT'
 
 export function UiLayout({ children, links }: { children: ReactNode; links: { label: string; path: string }[] }) {
-  const pathname = usePathname()
-
   return (
     <div className="flex flex-col bg-[#08050a]">
-      <div className="navbar fixed top-0 left-0 w-full bg-[#08050a] p-4 text-neutral-content flex-col md:flex-row space-y-2 md:space-y-0 border-b border-[#1c1326]">
+      <div className="z-[999] navbar fixed top-0 left-0 w-full bg-[#08050a] p-4 text-neutral-content flex-col md:flex-row space-y-2 md:space-y-0 border-b border-[#1c1326]">
         <div className="flex-1">
           <Link className="btn btn-ghost normal-case text-xl" href="/">
             <img className="w-12" alt="Logo" src="/logo.png" />
@@ -40,7 +38,7 @@ export function UiLayout({ children, links }: { children: ReactNode; links: { la
       <ClusterChecker>
         <AccountChecker />
       </ClusterChecker>
-      <div className="flex-grow mx-4 pb-[80px]">
+      <div className="flex-grow mx-4 pb-[80px] pt-[80px]">
         <Suspense
           fallback={
             <div className="text-center my-32">
