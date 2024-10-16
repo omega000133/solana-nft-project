@@ -63,10 +63,10 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
     let name = format!("Platinum Node #{}", count);
 
     let uri = match status.as_str() {
-        "active" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmU4kEZh9jKfbZLjuDV3aKcf8LwL8qPZ6c4vekPiddmjaW/{}.json", count-1),
-        "frozen" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmdtM3iNZNVFTw9PeTF8Xy1qRB9YhiKnnYCkkQMLZcDSq8/{}.json", count-1),
-        "burned" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmRCmuzneBgtZ41jPaC4wyLfogi6NAJrejYeVaTHCMn54v/{}.json", count-1),
-        _ => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmU4kEZh9jKfbZLjuDV3aKcf8LwL8qPZ6c4vekPiddmjaW/{}.json", count-1),
+        "active" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmPQmjgC3V1WeULvfFffqdVJRZZKodexsRFMmupLUh7r3M/{}.json", count-1),
+        "frozen" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmVR8mJH9FA3ZdmfBChbkiGVMuK2suKyxNmSa63LB2TkZw/{}.json", count-1),
+        "burned" => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmZHyuRhpSPmLM1MaR7GwmLGcocjWzoj4vVMaR2P3vu46i/{}.json", count-1),
+        _ => format!("https://black-cheap-koala-709.mypinata.cloud/ipfs/QmPQmjgC3V1WeULvfFffqdVJRZZKodexsRFMmupLUh7r3M/{}.json", count-1),
     };
 
     let symbol = "PNODE".to_string();
