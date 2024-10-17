@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/solana_nft_project.json`.
  */
 export type SolanaNftProject = {
-  "address": "AnvQP6kA26ujvSZ5BRP1SCjZbLxkAU5N7pr1B2koh4H4",
+  "address": "HfeipQfUGhX75hMECm9NMEWiNDnZLgXGWRQUed75v99t",
   "metadata": {
     "name": "solanaNftProject",
     "version": "0.1.0",
@@ -922,7 +922,7 @@ export type SolanaNftProject = {
 };
 
 export const IDL: SolanaNftProject = {
-  "address": "AnvQP6kA26ujvSZ5BRP1SCjZbLxkAU5N7pr1B2koh4H4",
+  "address": "HfeipQfUGhX75hMECm9NMEWiNDnZLgXGWRQUed75v99t",
   "metadata": {
     "name": "solanaNftProject",
     "version": "0.1.0",
