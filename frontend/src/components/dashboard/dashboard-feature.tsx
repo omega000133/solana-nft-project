@@ -110,7 +110,7 @@ export default function DashboardFeature() {
           {nfts && nfts.length > 0 ? (
             <div className="p-8">
               <h1 className="text-3xl font-bold text-white mb-8 text-center">NFT Collection</h1>
-              <div className="flex flex-wrap gap-8">
+              <div className="grid grid-cols-6 gap-8 justify-start">
                 {nfts.map((nft: any, index: any) => (
                   <NFTCard
                     key={index}

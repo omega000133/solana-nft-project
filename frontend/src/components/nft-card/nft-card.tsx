@@ -11,11 +11,11 @@ type NFTCardProps = {
 
 const NFTCard: React.FC<NFTCardProps> = ({ mint, name, status, imageUrl }) => {
     return (
-        <div className="box-border bg-[#ffffff0f] rounded-lg p-4 shadow-lg text-center w-60">
+        <div className="box-border bg-[#ffffff0f] rounded-xl p-2 shadow-lg text-center">
             <div className="relative w-full h-64">
-                <video src={imageUrl} autoPlay loop muted className="rounded-md" />
+                <video src={imageUrl} autoPlay loop muted className="rounded-xl" />
             </div>
-            <div className="mt-4">
+            <div className="mt-4 px-2">
                 <p className="text-xl font-bold text-white text-left">{name}</p>
                 <div className='flex justify-between'>
                     <p className="text-lg font-semibold text-purple-400 text-left">{status}</p>
