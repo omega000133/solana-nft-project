@@ -17,7 +17,7 @@ const links: { label: string; path: string }[] = [
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className='bg-[#08050a]'>
+      <body className="bg-[#090909]  bg-[url('https://cdn.prod.website-files.com/66b31f81ec67ac32bf06b672/66b32c10af372d6aaff20fe6_bg-header.png')] bg-cover bg-center bg-no-repeat">
         <ReactQueryProvider>
           <ClusterProvider>
             <SolanaProvider>

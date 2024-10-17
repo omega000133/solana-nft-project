@@ -11,7 +11,7 @@ type NFTCardProps = {
 
 const NFTCard: React.FC<NFTCardProps> = ({ mint, name, status, imageUrl }) => {
     return (
-        <div className="box-border bg-gray-800 rounded-lg p-4 shadow-lg text-center w-60 border border-[#1c1326]">
+        <div className="box-border bg-[#ffffff0f] rounded-lg p-4 shadow-lg text-center w-60">
             <div className="relative w-full h-64">
                 <video src={imageUrl} autoPlay loop muted className="rounded-md" />
             </div>

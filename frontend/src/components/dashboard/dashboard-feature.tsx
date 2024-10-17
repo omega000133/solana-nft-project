@@ -101,7 +101,10 @@ export default function DashboardFeature() {
   return (
     <div className='mt-20'>
       {loading ? (
-        <CircularProgress />
+        <div
+        className='text-center'>
+          <CircularProgress />
+          </div>
       ) : (
         <div>
           {nfts && nfts.length > 0 ? (
