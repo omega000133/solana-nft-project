@@ -77,9 +77,9 @@ export default function MintNFT() {
     }
 
     return (
-        <div className="">
+        <div className="flex-none">
             <button
-                className="bg-pink-400 hover:bg-pink-500 w-30 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                className="wallet-adapter-button-trigger wallet-adapter-button"
                 onClick={mintNFT}
                 disabled={loading}
             >

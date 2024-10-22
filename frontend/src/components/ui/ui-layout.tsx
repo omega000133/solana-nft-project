@@ -13,12 +13,11 @@ import MintNFT from './MintNFT'
 
 export function UiLayout({ children, links }: { children: ReactNode; links: { label: string; path: string }[] }) {
   return (
-    <div className="flex flex-col bg-[#08050a]">
-      <div className="z-[999] navbar fixed top-0 left-0 w-full bg-[#08050a] p-4 text-neutral-content flex-col md:flex-row space-y-2 md:space-y-0 border-b border-[#1c1326]">
+    <div className='h-screen overflow-auto'>
+      <div className="z-[999] navbar fixed top-0 left-0 w-full bg-[rgba(4,4,4,0.486)] p-4 text-neutral-content flex-col md:flex-row space-y-2 md:space-y-0">
         <div className="flex-1">
           <Link className="btn btn-ghost normal-case text-xl" href="/">
-            <img className="w-12" alt="Logo" src="/logo.png" />
-            <span className="text-xl font-bold">Platinum Node</span>
+            <img className="" alt="Logo" src="https://cdn.prod.website-files.com/66b31f81ec67ac32bf06b672/66b324c1ebcbac87919e4b40_logo-platinumnode.svg" />
           </Link>
           {/* <ul className="menu menu-horizontal px-1 space-x-2">
             {links.map(({ label, path }) => (
@@ -32,13 +31,13 @@ export function UiLayout({ children, links }: { children: ReactNode; links: { la
         </div>
         <div className="flex-none space-x-2">
           <WalletButton />
-          <ClusterUiSelect />
+          {/* <ClusterUiSelect /> */}
         </div>
       </div>
       <ClusterChecker>
         <AccountChecker />
       </ClusterChecker>
-      <div className="flex-grow mx-4 pb-[80px] pt-[80px]">
+      <div className="flex-grow mx-4 pb-[80px] pt-[50px]" >
         <Suspense
           fallback={
             <div className="text-center my-32">
@@ -50,7 +49,7 @@ export function UiLayout({ children, links }: { children: ReactNode; links: { la
         </Suspense>
         <Toaster position="bottom-right" />
       </div>
-      <footer className="footer fixed bottom-0 left-0 w-full footer-center p-6 bg-[#08050a] text-base-content border-t border-[#1c1326] flex justify-end">
+      <footer className="footer fixed bottom-0 left-0 w-full footer-center p-6 bg-[rgba(4,4,4,0.486)] text-base-content flex justify-end">
         <MintNFT />
       </footer>
     </div>

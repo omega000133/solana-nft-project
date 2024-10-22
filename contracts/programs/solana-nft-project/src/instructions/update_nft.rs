@@ -6,8 +6,7 @@ use anchor_spl::{
 use mpl_token_metadata::{
     accounts::{MasterEdition, Metadata as MetadataAccount},
     instructions::{
-        UnverifySizedCollectionItem, UpdateMetadataAccountV2,
-        UpdateMetadataAccountV2InstructionArgs,
+        SetAndVerifySizedCollectionItem, UnverifySizedCollectionItem, UpdateMetadataAccountV2, UpdateMetadataAccountV2InstructionArgs
     },
     types::{Collection, Creator, DataV2},
 };
@@ -136,6 +135,32 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
     invoke_signed(
         update_metadata_instruction_data,
         account_info.as_slice(),
+        &signer_seeds,
+    )?;
+
+    let account_info_set_and_verify_sized_collection = vec![
+        metadata_account_info.to_account_info(),
+        collection_metadata_account_info.to_account_info(),
+        ctx.accounts.collection_mint.to_account_info(),
+        ctx.accounts.user.to_account_info(),
+        collection_master_edition_info.to_account_info(),
+    ];
+
+    let set_and_verify_sized_collection_item = &SetAndVerifySizedCollectionItem {
+        metadata: metadata_account_info.key(),
+        collection_authority: ctx.accounts.collection_mint.key(),
+        payer: ctx.accounts.user.key(),
+        update_authority: ctx.accounts.collection_mint.key(),
+        collection_mint: ctx.accounts.collection_mint.key(),
+        collection: collection_metadata_account_info.key(),
+        collection_master_edition_account: collection_master_edition_info.key(),
+        collection_authority_record: None,
+    }
+    .instruction();
+
+    invoke_signed(
+        set_and_verify_sized_collection_item,
+        account_info_set_and_verify_sized_collection.as_slice(),
         &signer_seeds,
     )?;
 

@@ -1,6 +1,6 @@
 // components/NFTCard.tsx
 import React from 'react';
-import Image from 'next/image';
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
 type NFTCardProps = {
     mint: string;
@@ -11,21 +11,25 @@ type NFTCardProps = {
 
 const NFTCard: React.FC<NFTCardProps> = ({ mint, name, status, imageUrl }) => {
     return (
-        <div className="box-border bg-gray-800 rounded-lg p-4 shadow-lg text-center w-60 border border-[#1c1326]">
-            <div className="relative w-full h-64">
-                <Image src={imageUrl} alt={name} layout="fill" objectFit="cover" className="rounded-md" />
+        <div className="box-border bg-[#ffffff0f] rounded-xl p-2 shadow-lg text-center">
+            <div className="w-full">
+                <video src={imageUrl} autoPlay loop muted className="rounded-xl" />
             </div>
-            <div className="mt-4">
+            <div className="mt-4 px-2">
                 <p className="text-xl font-bold text-white text-left">{name}</p>
                 <div className='flex justify-between'>
-                    <p className="text-lg font-semibold text-purple-400 text-left">{status}</p>
+                    <p className={`text-lg font-semibold text-left ${status === 'active' ? 'text-green-500' :
+                            status === 'frozen' ? 'text-blue-500' :
+                                status === 'burned' ? 'text-red-500' :
+                                    'text-green-500'
+                        }`}>{status}</p>
                     <a
                         href={`https://solscan.io/token/${mint}/?cluster=devnet`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-block mt-2 text-blue-500 hover:underline"
                     >
-                        ↗
+                        <FaArrowUpRightFromSquare />
                     </a>
                 </div>
             </div>

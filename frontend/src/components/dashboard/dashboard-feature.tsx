@@ -101,13 +101,16 @@ export default function DashboardFeature() {
   return (
     <div className='mt-20'>
       {loading ? (
-        <CircularProgress />
+        <div
+        className='text-center'>
+          <CircularProgress />
+          </div>
       ) : (
         <div>
           {nfts && nfts.length > 0 ? (
             <div className="p-8">
               <h1 className="text-3xl font-bold text-white mb-8 text-center">NFT Collection</h1>
-              <div className="flex flex-wrap gap-8">
+              <div className="grid grid-cols-1 xl:grid-cols-6 md:grid-cols-4 sm:grid-cols-2 gap-8 justify-start">
                 {nfts.map((nft: any, index: any) => (
                   <NFTCard
                     key={index}

@@ -80,7 +80,7 @@ describe("update nft in collection", async () => {
                     units: 400_000,
                 });
 
-            const mint = new PublicKey("Dfqds4yuaVwigoQNcxrKAFD9diamsHzDCbyo64QuLaiE");
+            const mint = new PublicKey("6yN9iCu2ZYZUouvbxgXET5WN5kW8Rvs8cDUc7hq2LFRF");
 
             const metadataPDA = findMetadataPda(umi, {
                 mint: publicKey(mint),
