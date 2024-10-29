@@ -109,16 +109,15 @@ describe("update nft in collection", async () => {
             const tx = await program.methods
                 .updateNft(
                     1,
-                    "frozen"
+                    "burned"
                 )
                 .accounts({
-                    user: signer.publicKey,
                     nftMint: mint
                 })
                 .remainingAccounts(remainingAccounts)
                 .transaction();
 
-            
+
             let { lastValidBlockHeight, blockhash } = await connection.getLatestBlockhash('finalized');
 
             const transferTransaction = new anchor.web3.Transaction().add(

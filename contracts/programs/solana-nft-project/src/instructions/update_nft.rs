@@ -6,9 +6,10 @@ use anchor_spl::{
 use mpl_token_metadata::{
     accounts::{MasterEdition, Metadata as MetadataAccount},
     instructions::{
-        SetAndVerifySizedCollectionItem, UnverifySizedCollectionItem, UpdateMetadataAccountV2, UpdateMetadataAccountV2InstructionArgs
+        SetAndVerifySizedCollectionItem, UnverifySizedCollectionItem, UpdateMetadataAccountV2,
+        UpdateMetadataAccountV2InstructionArgs,
     },
-    types::{Collection, Creator, DataV2},
+    types::{Collection, DataV2},
 };
 
 use crate::error::ErrorCode;
@@ -74,7 +75,6 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
         metadata_account_info.to_account_info(),
         ctx.accounts.nft_mint.to_account_info(),
         ctx.accounts.collection_mint.to_account_info(),
-        ctx.accounts.user.to_account_info(),
         ctx.accounts.token_metadata_program.to_account_info(),
         ctx.accounts.token_program.to_account_info(),
         ctx.accounts.system_program.to_account_info(),
@@ -85,14 +85,13 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
         metadata_account_info.to_account_info(),
         collection_metadata_account_info.to_account_info(),
         ctx.accounts.collection_mint.to_account_info(),
-        ctx.accounts.user.to_account_info(),
         collection_master_edition_info.to_account_info(),
     ];
 
     let unverify_sized_collection_item = &UnverifySizedCollectionItem {
         metadata: metadata_account_info.key(),
         collection_authority: ctx.accounts.collection_mint.key(),
-        payer: ctx.accounts.user.key(),
+        payer: ctx.accounts.collection_mint.key(),
         collection_mint: ctx.accounts.collection_mint.key(),
         collection: collection_metadata_account_info.key(),
         collection_master_edition_account: collection_master_edition_info.key(),
@@ -106,21 +105,20 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
         &signer_seeds,
     )?;
 
+    let metadata_account = MetadataAccount::try_from(metadata_account_info)?;
+    let creators = metadata_account.creators;
+
     let update_metadata_instruction_data = &UpdateMetadataAccountV2 {
         metadata: metadata_account_info.key(),
         update_authority: ctx.accounts.collection_mint.key(),
     }
     .instruction(UpdateMetadataAccountV2InstructionArgs {
         data: Some(DataV2 {
-            name: name,
-            symbol: symbol,
-            uri: uri,
+            name,
+            symbol,
+            uri,
             seller_fee_basis_points: 1000,
-            creators: Some(vec![Creator {
-                address: ctx.accounts.user.key(),
-                verified: false,
-                share: 100,
-            }]),
+            creators,
             collection: Some(Collection {
                 verified: false,
                 key: ctx.accounts.collection_mint.key(),
@@ -142,14 +140,13 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
         metadata_account_info.to_account_info(),
         collection_metadata_account_info.to_account_info(),
         ctx.accounts.collection_mint.to_account_info(),
-        ctx.accounts.user.to_account_info(),
         collection_master_edition_info.to_account_info(),
     ];
 
     let set_and_verify_sized_collection_item = &SetAndVerifySizedCollectionItem {
         metadata: metadata_account_info.key(),
         collection_authority: ctx.accounts.collection_mint.key(),
-        payer: ctx.accounts.user.key(),
+        payer: ctx.accounts.collection_mint.key(),
         update_authority: ctx.accounts.collection_mint.key(),
         collection_mint: ctx.accounts.collection_mint.key(),
         collection: collection_metadata_account_info.key(),
@@ -169,8 +166,6 @@ pub fn update_nft<'a, 'b, 'c, 'info>(
 
 #[derive(Accounts)]
 pub struct UpdateNftInCollection<'info> {
-    #[account(mut)]
-    pub user: Signer<'info>,
     #[account(
         mut,
         seeds = [b"platinum_collection"],
